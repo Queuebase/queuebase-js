@@ -6,3 +6,5 @@ export const DEFAULT_HEADERS = {
   "Content-Type": "application/json",
   "X-Queuebase-Client": `queuebase-js/${VERSION}`,
 };
+
+export const TOLERANCE_SECONDS = 300;

@@ -1,11 +1,10 @@
 {
   "name": "@queuebase/queuebase-js",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Javascript client for Queuebase",
   "scripts": {
-    "build": "tsup",
-		"publish": "npm publish --access public"
-  },
+    "build": "tsup"
+	},
 	"private": false,
 	"homepage": "https://github.com/Queuebase/queuebase-js",
 	"bugs": "https://github.com/Queuebase/queuebase-js/issues",
