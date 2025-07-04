@@ -1,11 +1,14 @@
 {
   "name": "@queuebase/queuebase-js",
   "version": "0.0.1",
-  "description": "",
+  "description": "Javascript client for Queuebase",
   "scripts": {
     "build": "tsup",
 		"publish": "npm publish --access public"
   },
+	"private": false,
+	"homepage": "https://github.com/Queuebase/queuebase-js",
+	"bugs": "https://github.com/Queuebase/queuebase-js/issues",
 	"main": "./dist/index.cjs",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
@@ -16,8 +19,12 @@
 	"files": ["dist"],
   "type": "module",
   "license": "MIT",
-  "keywords": [],
-  "author": "",
+  "keywords": [
+		"javascript",
+		"typescript",
+		"queuebase"
+	],
+  "author": "Queuebase",
   "packageManager": "pnpm@10.11.1",
   "devDependencies": {
     "@types/node": "^24.0.10",
