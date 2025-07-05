@@ -1,6 +1,6 @@
 {
   "name": "@queuebase/queuebase-js",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "Javascript client for Queuebase",
   "scripts": {
     "build": "tsup"
@@ -13,12 +13,12 @@
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-			"types": "./dist/index.d.ts",
+      "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
     },
     "./express": {
-		  "types": "./dist/express.d.ts",
+      "types": "./dist/express.d.ts",
       "import": "./dist/express.js",
       "require": "./dist/express.cjs"
     }
