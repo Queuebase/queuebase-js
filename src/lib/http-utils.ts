@@ -13,7 +13,7 @@ export async function normalizeRequest(req: QueuebaseRequest) {
     }
   }
 
-  if ("method" in req && "headers" in req && "body" in req) {
+  if ("method" in req && "body" in req) {
     // Express or NextApiRequest
     return {
       method: req.method,
