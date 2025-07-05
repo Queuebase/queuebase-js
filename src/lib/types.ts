@@ -17,5 +17,5 @@ export type QueuebaseResponse =
   | NextApiResponse;
 
 export type QueuebaseRouterOptions = {
-  handlers: Record<string, (payload: any) => Promise<void>>;
+  handlers: Record<string, ({ payload }: { payload: any }) => Promise<void>>;
 };

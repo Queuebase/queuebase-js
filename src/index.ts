@@ -1,4 +1,5 @@
 import { TOLERANCE_SECONDS } from "./lib/constants";
+import { normalizeRequest, sendResponse } from "./lib/http-utils";
 import {
   QueuebaseRequest,
   QueuebaseResponse,
@@ -60,41 +61,6 @@ export function verifySignature({
   return isValid && timeSkew <= TOLERANCE_SECONDS;
 }
 
-function normalizeRequest(req: QueuebaseRequest): {
-  method?: string;
-  headers: Record<string, string>;
-  body: any;
-} {
-  if ("method" in req && "headers" in req && "body" in req) {
-    return {
-      method: req.method,
-      headers: req.headers as Record<string, string>,
-      body: (req as any).body,
-    };
-  }
-  throw new Error("Unsupported request format");
-}
-
-function sendResponse(
-  res: QueuebaseResponse,
-  statusCode: number,
-  data: any
-): void {
-  if (
-    typeof (res as any).status === "function" &&
-    typeof (res as any).json === "function"
-  ) {
-    (res as any).status(statusCode).json(data);
-  } else if (
-    typeof (res as any).status === "function" &&
-    typeof (res as any).send === "function"
-  ) {
-    (res as any).status(statusCode).send(data);
-  } else {
-    throw new Error("Unsupported response format");
-  }
-}
-
 /**
  * Create a router for handling Queuebase messages.
  */
@@ -103,7 +69,7 @@ export const createMessageRouter =
   async (req: QueuebaseRequest, res: QueuebaseResponse) => {
     let parsed;
     try {
-      parsed = normalizeRequest(req);
+      parsed = await normalizeRequest(req);
     } catch {
       sendResponse(res, 400, { error: "Unsupported request format" });
       return;
@@ -117,9 +83,15 @@ export const createMessageRouter =
     const { handlers } = options;
 
     const signature = parsed.headers["x-queuebase-signature"];
+
+    if (!signature) {
+      sendResponse(res, 400, { error: "Missing signature header" });
+      return;
+    }
+
     const isValid = verifySignature({
-      signature: signature,
-      payload: parsed.body,
+      signature,
+      payload: parsed.body.payload,
     });
 
     if (!isValid) {
@@ -136,7 +108,7 @@ export const createMessageRouter =
     }
 
     try {
-      await handler(payload);
+      await handler({ payload });
       sendResponse(res, 200, { success: true });
     } catch (err) {
       console.error("Error handling event", err);
