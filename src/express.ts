@@ -1,11 +1,11 @@
 import { NextFunction, Request, RequestHandler, Response } from "express";
-import { verifySignature } from "..";
-import { QueuebaseRouterOptions } from "../lib/types";
+import { verifySignature } from ".";
+import { QueuebaseRouterOptions } from "./lib/types";
 
 /**
  * Middleware to handle Queuebase requests in an Express application.
  */
-export function useQueuebase(options: QueuebaseRouterOptions): RequestHandler {
+export function queuebase(options: QueuebaseRouterOptions): RequestHandler {
   return async (req: Request, res: Response, next: NextFunction) => {
     try {
       if (req.method !== "POST") {
