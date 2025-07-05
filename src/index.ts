@@ -10,6 +10,8 @@ import crypto from "crypto";
 
 export { default as QueuebaseClient } from "./QueuebaseClient";
 
+export * from "./lib/types";
+
 /**
  * Create a new Queuebase client instance.
  * @param queuebaseApiKey - The API key for your queue
@@ -38,6 +40,8 @@ export function verifySignature({
   const parts = header.split(",");
   const timestamp = parts.find((p) => p.startsWith("t="))?.split("=")[1];
   const expectedSig = parts.find((p) => p.startsWith("v1="))?.split("=")[1];
+
+  console.dir({ header, timestamp, expectedSig, rawBody }, { depth: 3 });
 
   if (!timestamp || !expectedSig) return false;
 
@@ -80,6 +84,8 @@ export const createMessageRouter =
     }
 
     const signature = parsed.headers["x-queuebase-signature"];
+
+    console.log("Signature:", signature);
 
     if (!signature) {
       sendResponse(res, 400, { error: "Missing signature header" });
