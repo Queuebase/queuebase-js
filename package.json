@@ -1,6 +1,6 @@
 {
   "name": "@queuebase/queuebase-js",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Javascript client for Queuebase",
   "scripts": {
     "build": "tsup"
