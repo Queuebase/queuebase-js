@@ -41,8 +41,6 @@ export function verifySignature({
   const timestamp = parts.find((p) => p.startsWith("t="))?.split("=")[1];
   const expectedSig = parts.find((p) => p.startsWith("v1="))?.split("=")[1];
 
-  console.dir({ header, timestamp, expectedSig, rawBody }, { depth: 3 });
-
   if (!timestamp || !expectedSig) return false;
 
   const payloadToSign = `${timestamp}.${rawBody}`;
