@@ -24,10 +24,10 @@ export const createClient = (queuebaseApiKey: string): QueuebaseClient => {
  */
 export function verifySignature({
   signature: header,
-  payload,
+  rawBody,
 }: {
   signature: string;
-  payload: any;
+  rawBody: string;
 }) {
   const secret = process.env.QUEUEBASE_SECRET;
 
@@ -41,7 +41,7 @@ export function verifySignature({
 
   if (!timestamp || !expectedSig) return false;
 
-  const payloadToSign = `${timestamp}.${JSON.stringify(payload)}`;
+  const payloadToSign = `${timestamp}.${rawBody}`;
   const computedSig = crypto
     .createHmac("sha256", secret)
     .update(payloadToSign)
@@ -67,11 +67,10 @@ export function verifySignature({
 export const createMessageRouter =
   (options: QueuebaseRouterOptions) =>
   async (req: QueuebaseRequest, res: QueuebaseResponse) => {
-    let parsed;
-    try {
-      parsed = await normalizeRequest(req);
-    } catch {
-      sendResponse(res, 400, { error: "Unsupported request format" });
+    const parsed = await normalizeRequest(req);
+
+    if (parsed.error) {
+      sendResponse(res, 400, { error: parsed.error });
       return;
     }
 
@@ -79,8 +78,6 @@ export const createMessageRouter =
       sendResponse(res, 405, { error: "Method Not Allowed" });
       return;
     }
-
-    const { handlers } = options;
 
     const signature = parsed.headers["x-queuebase-signature"];
 
@@ -91,7 +88,7 @@ export const createMessageRouter =
 
     const isValid = verifySignature({
       signature,
-      payload: parsed.body.payload,
+      rawBody: parsed.rawBody,
     });
 
     if (!isValid) {
@@ -100,6 +97,7 @@ export const createMessageRouter =
     }
 
     const { event, payload } = parsed.body;
+    const { handlers } = options;
     const handler = handlers[event];
 
     if (!handler) {
