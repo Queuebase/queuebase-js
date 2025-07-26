@@ -4,7 +4,6 @@
   "description": "Javascript client for Queuebase",
   "scripts": {
     "build": "tsup",
-    "publish": "pnpm version patch && pnpm build && npm publish --access public",
     "dev": "tsx watch src/index.ts",
     "test": "echo \"No tests specified\" && exit 0"
   },
@@ -19,11 +18,6 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
-    },
-    "./express": {
-      "types": "./dist/express.d.ts",
-      "import": "./dist/express.js",
-      "require": "./dist/express.cjs"
     }
   },
   "files": [
