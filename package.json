@@ -1,12 +1,12 @@
 {
   "name": "@queuebase/queuebase-js",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "description": "Javascript client for Queuebase",
   "scripts": {
     "build": "tsup",
-		"publish": "pnpm version patch && pnpm build && npm publish --access public",
-		"dev": "tsx watch src/index.ts",
-		"test": "echo \"No tests specified\" && exit 0"
+    "publish": "pnpm version patch && pnpm build && npm publish --access public",
+    "dev": "tsx watch src/index.ts",
+    "test": "echo \"No tests specified\" && exit 0"
   },
   "private": false,
   "homepage": "https://github.com/Queuebase/queuebase-js",
