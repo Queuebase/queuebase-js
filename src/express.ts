@@ -1,12 +1,14 @@
-import { NextFunction, Request, RequestHandler, Response } from "express";
+import { NextFunction, Request, Response, Router } from "express";
 import { verifySignature } from ".";
 import { QueuebaseRouterOptions } from "./lib/types";
 
 /**
  * Middleware to handle Queuebase requests in an Express application.
  */
-export function queuebase(options: QueuebaseRouterOptions): RequestHandler {
-  return async (req: Request, res: Response, next: NextFunction) => {
+export function queuebase(options: QueuebaseRouterOptions): Router {
+  const router = Router();
+
+  router.post("/", async (req: Request, res: Response, next: NextFunction) => {
     try {
       if (req.method !== "POST") {
         res.status(405).send({ error: "Method Not Allowed" });
@@ -50,5 +52,7 @@ export function queuebase(options: QueuebaseRouterOptions): RequestHandler {
       console.error("Error in Queuebase middleware", err);
       next(err);
     }
-  };
+  });
+
+  return router;
 }
