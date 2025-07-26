@@ -193,3 +193,13 @@ app.use(express.json());
 
 app.use("/queuebase", queuebaseRouter);
 ```
+
+---
+
+## Issues and Feature Requests
+
+To submit a new bug or request a feature, visit our [Canny.io board]("https://queuebase.canny.io/feature-requests")
+
+## Contributing
+
+Coming soon!
