@@ -3,7 +3,10 @@
   "version": "0.0.12",
   "description": "Javascript client for Queuebase",
   "scripts": {
-    "build": "tsup"
+    "build": "tsup",
+		"publish": "pnpm version patch && pnpm build && npm publish --access public",
+		"dev": "tsx watch src/index.ts",
+		"test": "echo \"No tests specified\" && exit 0"
   },
   "private": false,
   "homepage": "https://github.com/Queuebase/queuebase-js",
